@@ -1,9 +1,10 @@
+/* eslint-disable no-plusplus */
 // ship may have to carry coordinates
 const Ship = (length) => {
   let health = 0;
 
   function hit() {
-    health += 1;
+    health++;
   }
 
   function isSunk() {
@@ -11,7 +12,7 @@ const Ship = (length) => {
   }
 
   return {
-    hit, isSunk,
+    hit, isSunk, health,
   };
 };
 
