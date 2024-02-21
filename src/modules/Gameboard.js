@@ -34,19 +34,19 @@ const Gameboard = () => {
 
   function checkBounds(r, c, length, isVertical) {
     if (isVertical) {
-      return (r + length < board.length);
+      return (r + length <= board.length);
     }
-    return (c + length < board.length);
+    return (c + length <= board.length);
   }
 
   function checkCollision(r, c, length, isVertical) {
     if (isVertical) {
-      for (let curR = r; curR < length; curR++) {
+      for (let curR = r; curR < length + r; curR++) {
         if (board[curR][c].hasShip) return false;
       }
     }
 
-    for (let curC = c; curC < length; curC++) {
+    for (let curC = c; curC < length + c; curC++) {
       if (board[r][curC].hasShip) return false;
     }
 
@@ -58,13 +58,13 @@ const Gameboard = () => {
     if (!checkCollision(r, c, length, isVertical)) return false;
 
     if (isVertical) {
-      for (let curR = r; curR < length; curR++) {
+      for (let curR = r; curR < length + r; curR++) {
         board[curR][c].hasShip = true;
         const keyString = `${curR},${c}`;
         boardMap.set(keyString, shipName);
       }
     } else {
-      for (let curC = c; curC < length; curC++) {
+      for (let curC = c; curC < length + c; curC++) {
         board[r][curC].hasShip = true;
         const keyString = `${r},${curC}`;
         boardMap.set(keyString, shipName);
@@ -92,6 +92,27 @@ const Gameboard = () => {
     return numSunk >= 5;
   }
 
+  function printBoard() {
+    let boardString = '\n';
+    for (let r = 0; r < 10; r++) {
+      let row = '';
+      for (let c = 0; c < 10; c++) {
+        if (board[r][c].isShot && board[r][c].hasShip) {
+          row += '[!]';
+        } else if (board[r][c].isShot) {
+          row += '[X]';
+        } else if (board[r][c].hasShip) {
+          row += '[O]';
+        } else {
+          row += '[ ]';
+        }
+        if (c < 9) row += ' ';
+      }
+      boardString += (`${row}\n`);
+    }
+    return boardString;
+  }
+
   function init() {
     createBoard();
     createShips();
@@ -105,6 +126,8 @@ const Gameboard = () => {
     board,
     checkBounds,
     checkCollision,
+    printBoard,
+    numSunk,
   };
 };
 
