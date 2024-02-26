@@ -1,3 +1,5 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable linebreak-style */
 import Ship from './Ship';
 
 /* eslint-disable no-plusplus */
@@ -44,6 +46,7 @@ const Gameboard = () => {
       for (let curR = r; curR < length + r; curR++) {
         if (board[curR][c].hasShip) return false;
       }
+      return true;
     }
 
     for (let curC = c; curC < length + c; curC++) {
@@ -72,6 +75,31 @@ const Gameboard = () => {
     }
 
     return true;
+  }
+
+  function randomPlaceShips() {
+    let successfulPlacements = 0;
+    const ships = [
+      ['carrier', 5],
+      ['battleship', 4],
+      ['destroyer', 3],
+      ['submarine', 3],
+      ['patrolBoat', 2],
+    ];
+
+    while (successfulPlacements < 5) {
+      const row = Math.floor(Math.random() * 10);
+      const col = Math.floor(Math.random() * 10);
+      const isVertical = Math.floor(Math.random() * 2) === 1 ? true : false;
+      const shipName = ships[successfulPlacements][0];
+      const shipLength = ships[successfulPlacements][1];
+
+      if (placeShip(row, col, shipLength, isVertical, shipName)) {
+        // console.log(`placed ${shipName} at (${row}, ${col}) vert: ${isVertical}`);
+        // console.log(printBoard());
+        successfulPlacements++;
+      }
+    }
   }
 
   function receiveAttack(r, c) {
@@ -113,13 +141,13 @@ const Gameboard = () => {
     return boardString;
   }
 
-  function init() {
+  function initBoard() {
     createBoard();
     createShips();
   }
 
   return {
-    init,
+    initBoard,
     placeShip,
     receiveAttack,
     checkGameOver,
@@ -128,6 +156,8 @@ const Gameboard = () => {
     checkCollision,
     printBoard,
     numSunk,
+    shipMap,
+    randomPlaceShips,
   };
 };
 
