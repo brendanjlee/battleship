@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-plusplus */
 const Board = (() => {
-  function generateGrid(board) {
+  function generateGridElem(board) {
     for (let i = 0; i < 100; i++) {
       const tile = document.createElement('div');
 
@@ -10,21 +10,21 @@ const Board = (() => {
     }
   }
 
-  function generateBoard(secondaryClass) {
+  function generateBoardElem(secondaryClass) {
     const gameboard = document.createElement('div');
     gameboard.classList.add('gameboard', secondaryClass);
-    generateGrid(gameboard);
+    generateGridElem(gameboard);
     return gameboard;
   }
 
   // render left and right boards
-  function renderBoards() {
+  function createBoard() {
     const boardContainer = document.createElement('div');
     boardContainer.classList.add('boardContainer');
 
     // generate left and right board
-    const gameBoardLeft = generateBoard('gameboardLeft');
-    const gameBoardRight = generateBoard('gameboardRight');
+    const gameBoardLeft = generateBoardElem('gameboardLeft');
+    const gameBoardRight = generateBoardElem('gameboardRight');
 
     boardContainer.appendChild(gameBoardLeft);
     boardContainer.appendChild(gameBoardRight);
@@ -32,7 +32,7 @@ const Board = (() => {
   }
 
   return {
-    renderBoards,
+    createBoard,
   };
 })();
 
