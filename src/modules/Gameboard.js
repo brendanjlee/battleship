@@ -13,7 +13,9 @@ const Gameboard = () => {
     for (let i = 0; i < 10; i++) {
       board[i] = [];
       for (let j = 0; j < 10; j++) {
-        const cell = { hasShip: false, isShot: false };
+        const cell = {
+          hasShip: false, isShot: false, row: i, col: j,
+        };
         board[i].push(cell);
       }
     }
