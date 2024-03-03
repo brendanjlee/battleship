@@ -10,8 +10,32 @@ const ScreenController = () => {
     Board.renderBoard(gameController.computer.board, false);
   }
 
+  // create reset game button bound to function
+  function resetScreen() {
+    // type in winner information
+    // add button for reset game
+    const resetDiv = document.createElement('div');
+    resetDiv.classList.add('resetDiv');
+
+    const resetBtn = document.createElement('button');
+    resetBtn.innerHTML = 'New Game';
+    resetBtn.classList.add('resetBtn');
+
+    const resetTextElem = document.createElement('h2');
+    resetTextElem.innerHTML = 'Game Over!';
+
+    resetBtn.addEventListener('click', () => {
+      console.log('reset game');
+      window.location.reload();
+    });
+
+    contentDiv.appendChild(resetDiv);
+    resetDiv.appendChild(resetTextElem);
+    resetDiv.appendChild(resetBtn);
+  }
+
   function clickHandlerBoard(e) {
-    if (gameController.gameState === 1) {
+    if (gameController.checkGameState()) {
       console.log('game over');
       return;
     }
@@ -19,8 +43,9 @@ const ScreenController = () => {
     const { row } = e.target.dataset;
     const { col } = e.target.dataset;
 
-    gameController.playRound(Number(row), Number(col));
-    gameController.playRound(Number(row), Number(col));
+    if (gameController.playRound(Number(row), Number(col))) {
+      resetScreen();
+    }
     updateScreen();
   }
 
@@ -35,7 +60,6 @@ const ScreenController = () => {
   gameController.initGameRandom();
   bind();
   updateScreen();
-  console.log(`start for player ${gameController.activePlayer}`);
 };
 
 export default ScreenController;
